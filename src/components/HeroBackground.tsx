@@ -1,54 +1,88 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
+import { Points, PointMaterial, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { useTheme } from "./ThemeProvider";
 import dynamic from "next/dynamic";
 
-// Define skills and emojis for interactive display
-const INTERACTIVE_ITEMS = [
-  { text: "React", emoji: "⚛️" },
-  { text: "Next.js", emoji: "▲" },
-  { text: "TypeScript", emoji: "📘" },
-  { text: "CSS", emoji: "🎨" },
-  { text: "JavaScript", emoji: "💛" },
-  { text: "Git", emoji: "🌳" },
-  { text: "UI/UX", emoji: "🎯" },
-  { text: "Mobile", emoji: "📱" },
+const TECH_STACK = [
+  { icon: "⚛️", name: "React", position: [-2, 1, 0] },
+  { icon: "▲", name: "Next.js", position: [2, -1, 0] },
+  { icon: "🎨", name: "CSS", position: [-1, -2, 0] },
+  { icon: "📘", name: "TypeScript", position: [1, 2, 0] },
+  { icon: "💅", name: "Styled", position: [-2, -1, 0] },
+  { icon: "🔷", name: "Material", position: [2, 1, 0] },
 ];
 
-// Seeded random number generator for consistent particle positions
-function seededRandom(seed: number) {
-  const x = Math.sin(seed++) * 10000;
-  return x - Math.floor(x);
+function FloatingIcon({ icon, name, position, mousePosition }) {
+  const ref = useRef();
+  const [hovered, setHovered] = useState(false);
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    if (ref.current) {
+      // Floating animation
+      ref.current.position.y += Math.sin(time + position[0]) * 0.001;
+      ref.current.position.x += Math.cos(time + position[1]) * 0.001;
+
+      // Mouse interaction
+      const mouseEffect = new THREE.Vector3(
+        mousePosition.x * 2,
+        -mousePosition.y * 2,
+        0
+      );
+      ref.current.position.x += (mouseEffect.x - ref.current.position.x) * 0.02;
+      ref.current.position.y += (mouseEffect.y - ref.current.position.y) * 0.02;
+    }
+  });
+
+  return (
+    <group
+      ref={ref}
+      position={position}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <Html center>
+        <div
+          style={{
+            fontSize: hovered ? "2em" : "1.5em",
+            transition: "all 0.3s ease",
+            cursor: "pointer",
+            opacity: hovered ? 1 : 0.7,
+          }}
+        >
+          {icon}
+        </div>
+      </Html>
+    </group>
+  );
 }
 
 function ParticleField() {
-  const points = useRef<THREE.Points>(null!);
+  const points = useRef();
   const { theme } = useTheme();
   const { viewport, camera } = useThree();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [hoveredParticle, setHoveredParticle] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Generate random points in a 3D space
   const particlesPosition = useMemo(() => {
     const positions = new Float32Array(2000 * 3);
     const speeds = new Float32Array(2000);
     const originalPositions = new Float32Array(2000 * 3);
 
-    let seed = 1; // Consistent seed for particle positions
-
     for (let i = 0; i < 2000; i++) {
-      const x = (seededRandom(seed++) - 0.5) * 10;
-      const y = (seededRandom(seed++) - 0.5) * 10;
-      const z = (seededRandom(seed++) - 0.5) * 10;
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 1 + Math.random() * 2;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+      const z = (Math.random() - 0.5) * 2;
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
@@ -58,7 +92,7 @@ function ParticleField() {
       originalPositions[i * 3 + 1] = y;
       originalPositions[i * 3 + 2] = z;
 
-      speeds[i] = seededRandom(seed++) * 0.5 + 0.5;
+      speeds[i] = Math.random() * 0.5 + 0.5;
     }
 
     return { positions, speeds, originalPositions };
@@ -68,7 +102,10 @@ function ParticleField() {
     if (!mounted) return;
     const time = state.clock.getElapsedTime();
 
-    // Update particle positions based on mouse
+    // Rotate the entire particle system
+    points.current.rotation.z = time * 0.05;
+
+    // Update particle positions with wave effect
     for (let i = 0; i < 2000; i++) {
       const i3 = i * 3;
       const originalX = particlesPosition.originalPositions[i3];
@@ -79,29 +116,29 @@ function ParticleField() {
       const dy = mousePosition.y * 10 - originalY;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      // If particle is close to mouse, move it away from the mouse
+      // Wave effect
+      const wave = Math.sin(time * 0.5 + distance * 0.5) * 0.1;
+
+      // If particle is close to mouse, move it away
       if (distance < 2) {
         const angle = Math.atan2(dy, dx);
         const pushForce = (2 - distance) * 0.2;
 
         particlesPosition.positions[i3] =
-          originalX - Math.cos(angle) * pushForce;
+          originalX - Math.cos(angle) * pushForce + wave;
         particlesPosition.positions[i3 + 1] =
-          originalY - Math.sin(angle) * pushForce;
+          originalY - Math.sin(angle) * pushForce + wave;
       } else {
-        // Return to original position
-        particlesPosition.positions[i3] =
-          originalX + Math.sin(time * particlesPosition.speeds[i]) * 0.1;
-        particlesPosition.positions[i3 + 1] =
-          originalY + Math.cos(time * particlesPosition.speeds[i]) * 0.1;
+        // Apply wave effect
+        particlesPosition.positions[i3] = originalX + wave;
+        particlesPosition.positions[i3 + 1] = originalY + wave;
       }
     }
 
     points.current.geometry.attributes.position.needsUpdate = true;
   });
 
-  // Update mouse position in 3D space
-  const onMouseMove = (event: THREE.Event) => {
+  const onMouseMove = (event) => {
     if (!mounted) return;
     const x = (event.clientX / window.innerWidth) * 2 - 1;
     const y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -111,78 +148,31 @@ function ParticleField() {
   if (!mounted) return null;
 
   return (
-    <Points ref={points} onPointerMove={onMouseMove}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particlesPosition.positions.length / 3}
-          array={particlesPosition.positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <PointMaterial
-        transparent
-        size={0.05}
-        sizeAttenuation={true}
-        color={theme === "dark" ? "#4f46e5" : "#2563eb"}
-        depthWrite={false}
-      />
-    </Points>
-  );
-}
-
-function MovingSpheres() {
-  const sphere1 = useRef<THREE.Mesh>(null!);
-  const sphere2 = useRef<THREE.Mesh>(null!);
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useFrame((state) => {
-    if (!mounted) return;
-    const time = state.clock.getElapsedTime();
-
-    // Animate first sphere
-    sphere1.current.position.x = Math.sin(time * 0.3) * 3;
-    sphere1.current.position.y = Math.cos(time * 0.2) * 2;
-    sphere1.current.position.z = Math.sin(time * 0.4) * 2;
-
-    // Animate second sphere
-    sphere2.current.position.x = Math.cos(time * 0.4) * 3;
-    sphere2.current.position.y = Math.sin(time * 0.3) * 2;
-    sphere2.current.position.z = Math.cos(time * 0.2) * 2;
-  });
-
-  if (!mounted) return null;
-
-  return (
-    <>
-      <mesh ref={sphere1}>
-        <sphereGeometry args={[0.5, 32, 32]} />
-        <meshBasicMaterial
+    <group>
+      <Points ref={points} onPointerMove={onMouseMove}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={particlesPosition.positions.length / 3}
+            array={particlesPosition.positions}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <PointMaterial
+          transparent
+          size={0.05}
+          sizeAttenuation={true}
           color={theme === "dark" ? "#4f46e5" : "#2563eb"}
-          wireframe
-          transparent
-          opacity={0.2}
+          depthWrite={false}
         />
-      </mesh>
-      <mesh ref={sphere2}>
-        <sphereGeometry args={[0.3, 32, 32]} />
-        <meshBasicMaterial
-          color={theme === "dark" ? "#8b5cf6" : "#4f46e5"}
-          wireframe
-          transparent
-          opacity={0.2}
-        />
-      </mesh>
-    </>
+      </Points>
+      {TECH_STACK.map((tech, index) => (
+        <FloatingIcon key={tech.name} {...tech} mousePosition={mousePosition} />
+      ))}
+    </group>
   );
 }
 
-// Create a client-side only version of the component
 const ClientHeroBackground = () => {
   const [mounted, setMounted] = useState(false);
 
@@ -206,13 +196,11 @@ const ClientHeroBackground = () => {
         }}
       >
         <ParticleField />
-        <MovingSpheres />
       </Canvas>
     </div>
   );
 };
 
-// Export a dynamic component with SSR disabled
 export default dynamic(() => Promise.resolve(ClientHeroBackground), {
   ssr: false,
 });

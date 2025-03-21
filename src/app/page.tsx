@@ -1,15 +1,25 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
 import HeroBackground from "@/components/HeroBackground";
+import { TypeAnimation } from "react-type-animation";
+import Link from "next/link";
+import ClientHeroBackground from "@/components/ClientHeroBackground";
+import ContactForm from "@/components/ContactForm";
 
 export default function Home() {
+  const { scrollY } = useScroll();
+  const scrollIndicatorOpacity = useTransform(scrollY, [0, 200], [1, 0]);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   const projects = [
     {
       title: "Modern E-commerce Dashboard",
       description:
         "A comprehensive admin panel for e-commerce businesses with real-time analytics, inventory management, and order processing. Built with Next.js, Tailwind CSS, and Prisma.",
-      image: "/images/ecommerce-dashboard.jpg",
+      image:
+        "https://placehold.co/600x400/4f46e5/ffffff?text=E-commerce+Dashboard",
       color: "#4f46e5",
       tags: ["Next.js", "Tailwind CSS", "Prisma", "TypeScript"],
       demoLink: "#",
@@ -19,7 +29,8 @@ export default function Home() {
       title: "AI Writing Assistant",
       description:
         "A modern landing page for an AI-powered writing assistant, featuring animated sections, 3D illustrations, and interactive pricing tables. Built with Next.js and Framer Motion.",
-      image: "/images/ai-assistant.jpg",
+      image:
+        "https://placehold.co/600x400/8b5cf6/ffffff?text=AI+Writing+Assistant",
       color: "#8b5cf6",
       tags: ["Next.js", "Three.js", "Framer Motion", "TypeScript"],
       demoLink: "#",
@@ -29,7 +40,7 @@ export default function Home() {
       title: "Task Management App",
       description:
         "A real-time collaborative task management application with Kanban board interface, filtering, and progress tracking. Built with Next.js and real-time database.",
-      image: "/images/task-manager.jpg",
+      image: "https://placehold.co/600x400/06b6d4/ffffff?text=Task+Management",
       color: "#06b6d4",
       tags: ["Next.js", "Real-time DB", "DnD", "TypeScript"],
       demoLink: "#",
@@ -40,35 +51,68 @@ export default function Home() {
   return (
     <main className="main">
       <section className="hero">
-        <div className="hero__background">
-          <HeroBackground />
-          <div className="hero__gradient"></div>
-        </div>
-
-        <div className="container">
-          <motion.div
-            className="hero__content"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="hero__title">
-              Crafting Digital Experiences with Code & Design
-            </h1>
-            <p className="hero__subtitle">
-              Senior Frontend Developer specializing in building exceptional
-              digital experiences that combine creativity with performance
-            </p>
-            <div className="hero__cta">
-              <a href="#projects" className="button button--primary">
+        <div className="hero__gradient">
+          <div className="container">
+            <motion.h1
+              className="hero__title"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <TypeAnimation
+                sequence={[
+                  "Crafting Digital",
+                  1000,
+                  "Crafting Digital Experiences",
+                  1000,
+                  "Crafting Digital Experiences with Code & Design",
+                  1000,
+                ]}
+                wrapper="span"
+                speed={50}
+                repeat={0}
+              />
+            </motion.h1>
+            <motion.p
+              className="hero__subtitle"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            >
+              Full-stack developer passionate about creating beautiful,
+              functional, and user-centered digital experiences.
+            </motion.p>
+            <motion.div
+              className="hero__cta"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            >
+              <Link href="#projects" className="button button--primary">
                 View Projects
-              </a>
-              <a href="#contact" className="button button--secondary">
-                Let's Talk
-              </a>
-            </div>
-          </motion.div>
+              </Link>
+              <button
+                onClick={() => setIsContactOpen(true)}
+                className="button button--secondary"
+              >
+                Get in Touch
+              </button>
+            </motion.div>
+          </div>
         </div>
+        <ClientHeroBackground />
+        <motion.div
+          className="scroll-indicator"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.2, ease: "easeOut" }}
+          style={{ opacity: scrollIndicatorOpacity }}
+        >
+          <div className="scroll-indicator__mouse">
+            <div className="scroll-indicator__wheel" />
+          </div>
+          <span className="scroll-indicator__label">Scroll Down</span>
+        </motion.div>
       </section>
 
       <section id="projects" className="section section--projects">
@@ -94,26 +138,57 @@ export default function Home() {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-100px" }}
                 style={
                   {
                     "--project-color": project.color,
+                    "--color-primary-rgb": project.color
+                      .replace("#", "")
+                      .match(/.{2}/g)
+                      ?.map((hex) => parseInt(hex, 16))
+                      .join(", "),
                   } as React.CSSProperties
                 }
               >
                 <div className="project-showcase__content">
-                  <h3 className="project-showcase__title">{project.title}</h3>
-                  <p className="project-showcase__description">
+                  <motion.h3
+                    className="project-showcase__title"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    viewport={{ once: true }}
+                  >
+                    {project.title}
+                  </motion.h3>
+                  <motion.p
+                    className="project-showcase__description"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    viewport={{ once: true }}
+                  >
                     {project.description}
-                  </p>
-                  <div className="project-showcase__tags">
+                  </motion.p>
+                  <motion.div
+                    className="project-showcase__tags"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    viewport={{ once: true }}
+                  >
                     {project.tags.map((tag, tagIndex) => (
                       <span key={tagIndex} className="project-showcase__tag">
                         {tag}
                       </span>
                     ))}
-                  </div>
-                  <div className="project-showcase__links">
+                  </motion.div>
+                  <motion.div
+                    className="project-showcase__links"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    viewport={{ once: true }}
+                  >
                     <a
                       href={project.demoLink}
                       className="button button--primary"
@@ -130,12 +205,25 @@ export default function Home() {
                     >
                       View Code
                     </a>
-                  </div>
+                  </motion.div>
                 </div>
-                <div className="project-showcase__image">
-                  <img src={project.image} alt={project.title} />
-                  <div className="project-showcase__gradient"></div>
-                </div>
+                <motion.div
+                  className="project-showcase__image"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <motion.img
+                    src={project.image}
+                    alt={project.title}
+                    initial={{ scale: 1.2 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                  />
+                  <div className="project-showcase__gradient" />
+                </motion.div>
               </motion.div>
             ))}
           </div>
@@ -222,6 +310,11 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      <ContactForm
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
     </main>
   );
 }

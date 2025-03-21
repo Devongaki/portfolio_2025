@@ -12,11 +12,13 @@
     "@emailjs/browser": "^4.4.1",
     "@react-three/drei": "^10.0.4",
     "@react-three/fiber": "^9.1.0",
+    "@types/three": "^0.174.0",
     "framer-motion": "^12.5.0",
     "maath": "^0.10.8",
     "next": "15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-type-animation": "^3.2.0",
     "three": "^0.174.0"
   },
   "devDependencies": {
