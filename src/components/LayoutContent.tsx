@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Logo from "./Logo";
+import LinkedInIcon from "./LinkedInIcon";
 
 export default function LayoutContent({
   children,
@@ -105,14 +106,15 @@ export default function LayoutContent({
                 >
                   GitHub
                 </Link>
-                <Link
-                  href="https://linkedin.com/in/yourusername"
+                <a
+                  href="https://www.linkedin.com/in/william-okerio-ongaki/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer__link"
                 >
+                  <LinkedInIcon />
                   LinkedIn
-                </Link>
+                </a>
                 <Link
                   href="https://twitter.com/yourusername"
                   target="_blank"
