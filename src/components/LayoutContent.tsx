@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Logo from "./Logo";
-import LinkedInIcon from "./icons/LinkedInIcon";
-import GitHubIcon from "./icons/GitHubIcon";
-import TwitterIcon from "./icons/TwitterIcon";
+import Logo from "@/components/ui/Logo";
+import LinkedInIcon from "@/components/icons/LinkedInIcon";
+import GitHubIcon from "@/components/icons/GitHubIcon";
+import TwitterIcon from "@/components/icons/TwitterIcon";
 
 export default function LayoutContent({
   children,

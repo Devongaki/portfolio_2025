@@ -3,16 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  tags: string[];
-  liveUrl: string;
-  githubUrl: string;
-}
+import { Project } from "@/types/projects";
 
 const projects: Project[] = [
   {

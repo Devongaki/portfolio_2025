@@ -3,11 +3,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
-
-interface ContactFormProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { ContactFormProps } from "@/types/components";
 
 export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
   const [status, setStatus] = useState<

@@ -3,10 +3,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 import Link from "next/link";
-import ClientHeroBackground from "@/components/ClientHeroBackground";
-import ContactForm from "@/components/ContactForm";
+import ClientHeroBackground from "@/components/sections/Hero/ClientHeroBackground";
+import ContactForm from "@/components/sections/Contact/ContactForm";
 import { useState, useEffect } from "react";
-import Logo from "@/components/Logo";
+import Logo from "@/components/ui/Logo";
 
 export default function Home() {
   const { scrollY } = useScroll();

@@ -1,3 +1,20 @@
+/* Import Base Styles */
+@import "./base/reset.css";
+
+/* Import Theme Variables */
+@import "./themes/variables.css";
+
+/* Import Utilities */
+@import "./utils/layout.css";
+
+/* Import Component Styles */
+@import "../components/ui/Logo/Logo.css";
+@import "../components/layout/Header/Header.css";
+@import "../components/layout/Footer/Footer.css";
+@import "../components/sections/Hero/Hero.css";
+@import "../components/sections/Projects/Projects.css";
+@import "../components/sections/Contact/Contact.css";
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 :root {

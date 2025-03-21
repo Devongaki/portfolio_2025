@@ -2,8 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
-type Theme = "light" | "dark";
+import { Theme, ThemeContextType } from "@/types/theme";
 
 interface ThemeContextType {
   theme: Theme;

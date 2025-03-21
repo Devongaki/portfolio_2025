@@ -1,18 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-interface TechSkill {
-  name: string;
-  icon: string;
-  level: number;
-}
-
-interface TimelineItem {
-  year: string;
-  title: string;
-  description: string;
-}
+import { TechSkill, TimelineItem } from "@/types/projects";
 
 const techStack: TechSkill[] = [
   { name: "React", icon: "⚛️", level: 90 },
