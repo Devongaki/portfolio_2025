@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface Project {
   id: string;
@@ -153,7 +154,14 @@ export default function Projects() {
                   onHoverEnd={() => setHoveredProject(null)}
                 >
                   <div className="project-card__image">
-                    <img src={project.image} alt={project.title} />
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      width={500}
+                      height={300}
+                      className="project-image"
+                      priority={true}
+                    />
                     {hoveredProject === project.id && (
                       <motion.div
                         className="project-card__overlay"

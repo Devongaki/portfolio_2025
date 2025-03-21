@@ -54,12 +54,17 @@ export default function ClientHeroBackground() {
     let mouseX = 0;
     let mouseY = 0;
 
-    const handleMouseMove = (event: MouseEvent) => {
-      mouseX = event.clientX / window.innerWidth - 0.5;
-      mouseY = event.clientY / window.innerHeight - 0.5;
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect) {
+        mouseX = (e.clientX - rect.left) / rect.width;
+        mouseY = (e.clientY - rect.top) / rect.height;
+        mouseX = (mouseX * 2 - 1) * 0.5;
+        mouseY = -(mouseY * 2 - 1) * 0.5;
+      }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    containerRef.current.addEventListener("mousemove", handleMouseMove);
 
     // Animation
     const animate = () => {
@@ -88,7 +93,7 @@ export default function ClientHeroBackground() {
 
     // Cleanup
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      containerRef.current?.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
       containerRef.current?.removeChild(renderer.domElement);
     };

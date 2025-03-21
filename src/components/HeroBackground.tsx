@@ -94,7 +94,6 @@ function FloatingIcon({ icon, position, mousePosition }: FloatingIconProps) {
 function ParticleField() {
   const points = useRef<THREE.Points>(null);
   const { theme } = useTheme();
-  const { viewport, camera } = useThree();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
 
@@ -197,7 +196,7 @@ function ParticleField() {
           depthWrite={false}
         />
       </Points>
-      {TECH_STACK.map((tech, index) => (
+      {TECH_STACK.map((tech) => (
         <FloatingIcon
           key={tech.name}
           icon={tech.icon}
