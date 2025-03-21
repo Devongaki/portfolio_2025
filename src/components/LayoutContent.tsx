@@ -4,6 +4,16 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
+const Logo = () => (
+  <div className="logo">
+    <span className="logo__text">
+      <span className="logo__symbol">&lt;</span>
+      Devongaki
+      <span className="logo__symbol">/&gt;</span>
+    </span>
+  </div>
+);
+
 export default function LayoutContent({
   children,
 }: {
@@ -29,7 +39,7 @@ export default function LayoutContent({
       <header className={`header ${isScrolled ? "header--scrolled" : ""}`}>
         <div className="container header__container">
           <Link href="/" className="header__logo">
-            William Ongaki
+            <Logo />
           </Link>
 
           <nav className="header__nav">
@@ -126,7 +136,7 @@ export default function LayoutContent({
 
           <div className="footer__bottom">
             <p className="footer__copyright">
-              © {new Date().getFullYear()} William Ongaki. All rights reserved.
+              © {new Date().getFullYear()} Devongaki. All rights reserved.
             </p>
           </div>
         </div>

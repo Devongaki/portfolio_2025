@@ -7,9 +7,8 @@ import LayoutContent from "@/components/LayoutContent";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "William Ongaki - Frontend Developer",
-  description:
-    "Portfolio website showcasing my work and expertise in frontend development",
+  title: "Devongaki - Frontend Developer",
+  description: "Portfolio showcasing my work as a Frontend Developer",
 };
 
 export default function RootLayout({
