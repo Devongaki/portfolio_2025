@@ -5,12 +5,19 @@ import { TypeAnimation } from "react-type-animation";
 import Link from "next/link";
 import ClientHeroBackground from "@/components/ClientHeroBackground";
 import ContactForm from "@/components/ContactForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Logo from "@/components/Logo";
 
 export default function Home() {
   const { scrollY } = useScroll();
   const scrollIndicatorOpacity = useTransform(scrollY, [0, 200], [1, 0]);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    document.body.style.overflow = !isMenuOpen ? "hidden" : "";
+  };
 
   const projects = [
     {
@@ -49,6 +56,49 @@ export default function Home() {
 
   return (
     <main className="main">
+      <header className="header">
+        <div className="header__container">
+          <Logo />
+          <nav className="header__nav">
+            <button
+              className={`header__menu-button ${isMenuOpen ? "active" : ""}`}
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <div className={`header__nav-items ${isMenuOpen ? "active" : ""}`}>
+              <Link
+                href="#projects"
+                className="header__nav-item"
+                onClick={toggleMenu}
+              >
+                Projects
+              </Link>
+              <Link
+                href="#expertise"
+                className="header__nav-item"
+                onClick={toggleMenu}
+              >
+                Expertise
+              </Link>
+              <Link
+                href="#contact"
+                className="header__nav-item"
+                onClick={toggleMenu}
+              >
+                Contact
+              </Link>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <div
+        className={`mobile-menu-overlay ${isMenuOpen ? "active" : ""}`}
+        onClick={toggleMenu}
+      ></div>
       <section className="hero">
         <div className="hero__gradient">
           <div className="container">
