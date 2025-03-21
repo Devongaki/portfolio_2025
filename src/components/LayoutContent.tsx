@@ -99,7 +99,7 @@ export default function LayoutContent({
               <h3 className="footer__title">Connect</h3>
               <div className="footer__social">
                 <Link
-                  href="https://github.com/yourusername"
+                  href="https://github.com/Devongaki"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer__link"
@@ -116,7 +116,7 @@ export default function LayoutContent({
                   LinkedIn
                 </a>
                 <Link
-                  href="https://twitter.com/yourusername"
+                  href="https://x.com/Devongaki"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer__link"
