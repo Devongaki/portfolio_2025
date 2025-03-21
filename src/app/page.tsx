@@ -128,7 +128,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              Full-stack developer passionate about creating beautiful,
+              Frontend developer passionate about creating beautiful,
               functional, and user-centered digital experiences.
             </motion.p>
             <motion.div
