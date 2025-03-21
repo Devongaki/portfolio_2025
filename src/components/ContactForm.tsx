@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
@@ -10,56 +10,34 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formRef.current) return;
+
     setStatus("loading");
     setErrorMessage("");
 
     try {
-      // Replace these with your actual EmailJS credentials
-      const result = await emailjs.send(
-        "YOUR_SERVICE_ID", // Create a service in EmailJS and put the ID here
-        "YOUR_TEMPLATE_ID", // Create an email template and put the ID here
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_name: "William", // Your name
-        },
-        "YOUR_PUBLIC_KEY" // Your EmailJS public key
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
+        formRef.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ""
       );
-
-      if (result.status === 200) {
-        setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => {
-          onClose();
-          setStatus("idle");
-        }, 2000);
-      }
+      setStatus("success");
+      formRef.current.reset();
+      setTimeout(() => setStatus("idle"), 3000);
     } catch (error) {
+      console.error("Failed to send email:", error);
       setStatus("error");
-      setErrorMessage("Failed to send message. Please try again later.");
+      setErrorMessage("Failed to send message. Please try again.");
     }
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
   };
 
   return (
@@ -85,15 +63,17 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
                 ×
               </button>
             </div>
-            <form onSubmit={handleSubmit} className="contact-form">
+            <form
+              onSubmit={handleSubmit}
+              className="contact-form"
+              ref={formRef}
+            >
               <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
-                  value={formData.name}
-                  onChange={handleChange}
                   required
                   placeholder="Your name"
                   disabled={status === "loading"}
@@ -105,8 +85,6 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
                   type="email"
                   id="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
                   required
                   placeholder="your.email@example.com"
                   disabled={status === "loading"}
@@ -117,8 +95,6 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
                 <textarea
                   id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
                   required
                   placeholder="Your message here..."
                   rows={5}

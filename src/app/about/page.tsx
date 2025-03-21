@@ -80,15 +80,15 @@ export default function About() {
               About Me
             </motion.h1>
             <motion.p className="about__text" variants={itemVariants}>
-              Hi! I'm a passionate Frontend Developer with a keen eye for design
-              and a love for creating seamless user experiences. With several
-              years of experience in web development, I specialize in building
-              modern, responsive, and performant web applications.
+              Hi! I&apos;m a passionate Frontend Developer with a keen eye for
+              design and a love for creating seamless user experiences. With
+              several years of experience in web development, I specialize in
+              building modern, responsive, and performant web applications.
             </motion.p>
             <motion.p className="about__text" variants={itemVariants}>
-              When I'm not coding, you can find me exploring new technologies,
-              contributing to open-source projects, or sharing my knowledge
-              through technical blog posts.
+              When I&apos;m not coding, you can find me exploring new
+              technologies, contributing to open-source projects, or sharing my
+              knowledge through technical blog posts.
             </motion.p>
           </motion.div>
         </div>
@@ -110,7 +110,7 @@ export default function About() {
             initial="hidden"
             animate="visible"
           >
-            {techStack.map((tech, index) => (
+            {techStack.map((tech) => (
               <motion.div
                 key={tech.name}
                 className="skill-card"
@@ -148,7 +148,7 @@ export default function About() {
             initial="hidden"
             animate="visible"
           >
-            {timeline.map((item, index) => (
+            {timeline.map((item) => (
               <motion.div
                 key={item.year}
                 className="timeline__item"

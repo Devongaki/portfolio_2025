@@ -8,16 +8,46 @@ import { useTheme } from "./ThemeProvider";
 import dynamic from "next/dynamic";
 
 const TECH_STACK = [
-  { icon: "⚛️", name: "React", position: [-2, 1, 0] },
-  { icon: "▲", name: "Next.js", position: [2, -1, 0] },
-  { icon: "🎨", name: "CSS", position: [-1, -2, 0] },
-  { icon: "📘", name: "TypeScript", position: [1, 2, 0] },
-  { icon: "💅", name: "Styled", position: [-2, -1, 0] },
-  { icon: "🔷", name: "Material", position: [2, 1, 0] },
+  {
+    icon: "⚛️",
+    name: "React",
+    position: [-2, 1, 0] as [number, number, number],
+  },
+  {
+    icon: "▲",
+    name: "Next.js",
+    position: [2, -1, 0] as [number, number, number],
+  },
+  {
+    icon: "🎨",
+    name: "CSS",
+    position: [-1, -2, 0] as [number, number, number],
+  },
+  {
+    icon: "📘",
+    name: "TypeScript",
+    position: [1, 2, 0] as [number, number, number],
+  },
+  {
+    icon: "💅",
+    name: "Styled",
+    position: [-2, -1, 0] as [number, number, number],
+  },
+  {
+    icon: "🔷",
+    name: "Material",
+    position: [2, 1, 0] as [number, number, number],
+  },
 ];
 
-function FloatingIcon({ icon, name, position, mousePosition }) {
-  const ref = useRef();
+interface FloatingIconProps {
+  icon: string;
+  position: [number, number, number];
+  mousePosition: { x: number; y: number };
+}
+
+function FloatingIcon({ icon, position, mousePosition }: FloatingIconProps) {
+  const ref = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
@@ -62,7 +92,7 @@ function FloatingIcon({ icon, name, position, mousePosition }) {
 }
 
 function ParticleField() {
-  const points = useRef();
+  const points = useRef<THREE.Points>(null);
   const { theme } = useTheme();
   const { viewport, camera } = useThree();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -99,7 +129,7 @@ function ParticleField() {
   }, []);
 
   useFrame((state) => {
-    if (!mounted) return;
+    if (!mounted || !points.current) return;
     const time = state.clock.getElapsedTime();
 
     // Rotate the entire particle system
@@ -138,7 +168,7 @@ function ParticleField() {
     points.current.geometry.attributes.position.needsUpdate = true;
   });
 
-  const onMouseMove = (event) => {
+  const onMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!mounted) return;
     const x = (event.clientX / window.innerWidth) * 2 - 1;
     const y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -156,6 +186,7 @@ function ParticleField() {
             count={particlesPosition.positions.length / 3}
             array={particlesPosition.positions}
             itemSize={3}
+            args={[particlesPosition.positions, 3]}
           />
         </bufferGeometry>
         <PointMaterial
@@ -167,7 +198,12 @@ function ParticleField() {
         />
       </Points>
       {TECH_STACK.map((tech, index) => (
-        <FloatingIcon key={tech.name} {...tech} mousePosition={mousePosition} />
+        <FloatingIcon
+          key={tech.name}
+          icon={tech.icon}
+          position={tech.position}
+          mousePosition={mousePosition}
+        />
       ))}
     </group>
   );

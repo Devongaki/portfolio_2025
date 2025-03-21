@@ -1,12 +1,11 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
-import HeroBackground from "@/components/HeroBackground";
 import { TypeAnimation } from "react-type-animation";
 import Link from "next/link";
 import ClientHeroBackground from "@/components/ClientHeroBackground";
 import ContactForm from "@/components/ContactForm";
+import { useState } from "react";
 
 export default function Home() {
   const { scrollY } = useScroll();
@@ -296,9 +295,9 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="contact"
           >
-            <h2 className="section__title">Let's Work Together</h2>
+            <h2 className="section__title">Let&apos;s Work Together</h2>
             <p className="contact__text">
-              I'm always interested in hearing about new projects and
+              I&apos;m always interested in hearing about new projects and
               opportunities.
             </p>
             <a

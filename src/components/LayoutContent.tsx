@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "./ThemeProvider";
+import Link from "next/link";
 
 export default function LayoutContent({
   children,
@@ -10,8 +10,7 @@ export default function LayoutContent({
   children: React.ReactNode;
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { theme } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -29,14 +28,14 @@ export default function LayoutContent({
     <>
       <header className={`header ${isScrolled ? "header--scrolled" : ""}`}>
         <div className="container header__container">
-          <a href="/" className="header__logo">
+          <Link href="/" className="header__logo">
             William Ongaki
-          </a>
+          </Link>
 
           <nav className="header__nav">
             <button
               className="header__menu-button"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >
               <span></span>
@@ -45,25 +44,25 @@ export default function LayoutContent({
             </button>
 
             <AnimatePresence>
-              {(isMobileMenuOpen || window.innerWidth > 768) && (
+              {(isMenuOpen || window.innerWidth > 768) && (
                 <motion.div
                   className="header__nav-items"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                 >
-                  <a href="/" className="header__nav-item">
+                  <Link href="/" className="header__nav-item">
                     Home
-                  </a>
-                  <a href="#projects" className="header__nav-item">
+                  </Link>
+                  <Link href="#projects" className="header__nav-item">
                     Projects
-                  </a>
-                  <a href="#expertise" className="header__nav-item">
+                  </Link>
+                  <Link href="#expertise" className="header__nav-item">
                     Expertise
-                  </a>
-                  <a href="#contact" className="header__nav-item">
+                  </Link>
+                  <Link href="#contact" className="header__nav-item">
                     Contact
-                  </a>
+                  </Link>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -79,48 +78,48 @@ export default function LayoutContent({
             <div className="footer__section">
               <h3 className="footer__title">Navigation</h3>
               <nav className="footer__nav">
-                <a href="/" className="footer__link">
+                <Link href="/" className="footer__link">
                   Home
-                </a>
-                <a href="#projects" className="footer__link">
+                </Link>
+                <Link href="#projects" className="footer__link">
                   Projects
-                </a>
-                <a href="#expertise" className="footer__link">
+                </Link>
+                <Link href="#expertise" className="footer__link">
                   Expertise
-                </a>
-                <a href="#contact" className="footer__link">
+                </Link>
+                <Link href="#contact" className="footer__link">
                   Contact
-                </a>
+                </Link>
               </nav>
             </div>
 
             <div className="footer__section">
               <h3 className="footer__title">Connect</h3>
               <div className="footer__social">
-                <a
+                <Link
                   href="https://github.com/yourusername"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer__link"
                 >
                   GitHub
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://linkedin.com/in/yourusername"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer__link"
                 >
                   LinkedIn
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://twitter.com/yourusername"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer__link"
                 >
                   Twitter
-                </a>
+                </Link>
               </div>
             </div>
           </div>
