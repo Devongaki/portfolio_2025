@@ -1004,7 +1004,7 @@ a {
   position: fixed;
   top: 30%;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 0) !important;
   background-color: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
