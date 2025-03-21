@@ -236,13 +236,26 @@ a {
 }
 
 .button--primary {
-  background: var(--color-primary);
-  color: var(--color-background);
+  background: linear-gradient(
+    45deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2),
+    0 2px 4px -1px rgba(79, 70, 229, 0.1);
 }
 
 .button--primary:hover {
-  background: var(--color-primary-dark);
+  background: linear-gradient(
+    45deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 100%
+  );
   transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3),
+    0 4px 6px -2px rgba(79, 70, 229, 0.15);
 }
 
 .button--secondary {
@@ -1232,45 +1245,47 @@ a {
 .logo {
   display: inline-flex;
   align-items: center;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: translateY(-1px);
 }
 
 .logo__text {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   background: linear-gradient(
     45deg,
     var(--color-primary) 0%,
     var(--color-secondary) 100%
   );
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: var(--font-mono);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .logo__symbol {
+  display: inline-block;
   color: var(--color-primary);
-  opacity: 0.8;
+  -webkit-text-fill-color: currentColor;
   font-weight: 400;
   margin: 0 0.1em;
-  -webkit-text-fill-color: currentColor;
+  opacity: 0.8;
+  transition: all 0.3s ease;
 }
 
 .logo:hover .logo__symbol {
   color: var(--color-secondary);
   transform: scale(1.1);
+  opacity: 1;
 }
 
-.logo:hover .logo__text {
-  transform: translateY(-1px);
-}
-
-/* Dark mode adjustments */
 [data-theme="dark"] .logo__symbol {
-  color: var(--color-primary);
+  opacity: 0.9;
 }

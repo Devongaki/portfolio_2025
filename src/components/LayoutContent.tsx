@@ -3,16 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-
-const Logo = () => (
-  <div className="logo">
-    <span className="logo__text">
-      <span className="logo__symbol">&lt;</span>
-      Devongaki
-      <span className="logo__symbol">/&gt;</span>
-    </span>
-  </div>
-);
+import Logo from "./Logo";
 
 export default function LayoutContent({
   children,
