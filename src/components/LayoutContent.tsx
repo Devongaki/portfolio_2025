@@ -77,64 +77,67 @@ export default function LayoutContent({
       <main>{children}</main>
 
       <footer className="footer">
-        <div className="container footer__container">
+        <div className="footer__container">
           <div className="footer__content">
-            <div className="footer__section">
-              <h3 className="footer__title">Navigation</h3>
+            <div className="footer__left">
+              <Logo />
               <nav className="footer__nav">
-                <Link href="/" className="footer__link">
-                  Home
-                </Link>
-                <Link href="#projects" className="footer__link">
-                  Projects
-                </Link>
-                <Link href="#expertise" className="footer__link">
-                  Expertise
-                </Link>
-                <Link href="#contact" className="footer__link">
-                  Contact
-                </Link>
+                <h3 className="footer__nav-title">Navigation</h3>
+                <div className="footer__nav-items">
+                  <Link href="#home" className="footer__nav-item">
+                    Home
+                  </Link>
+                  <Link href="#projects" className="footer__nav-item">
+                    Projects
+                  </Link>
+                  <Link href="#expertise" className="footer__nav-item">
+                    Expertise
+                  </Link>
+                  <Link href="#contact" className="footer__nav-item">
+                    Contact
+                  </Link>
+                </div>
               </nav>
             </div>
 
-            <div className="footer__section">
-              <h3 className="footer__title">Connect</h3>
-              <div className="footer__social">
-                <Link
-                  href="https://github.com/Devongaki"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer__link"
-                >
-                  <GitHubIcon />
-                  GitHub
-                </Link>
-                <Link
-                  href="https://www.linkedin.com/in/william-okerio-ongaki/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer__link"
-                >
-                  <LinkedInIcon />
-                  LinkedIn
-                </Link>
-                <Link
-                  href="https://x.com/Devongaki"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer__link"
-                >
-                  <TwitterIcon />
-                  Twitter
-                </Link>
+            <div className="footer__right">
+              <div className="footer__nav">
+                <h3 className="footer__nav-title">Connect</h3>
+                <div className="footer__social">
+                  <Link
+                    href="https://github.com/Devongaki"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer__link"
+                  >
+                    <GitHubIcon />
+                    GitHub
+                  </Link>
+                  <Link
+                    href="https://www.linkedin.com/in/william-okerio-ongaki/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer__link"
+                  >
+                    <LinkedInIcon />
+                    LinkedIn
+                  </Link>
+                  <Link
+                    href="https://x.com/Devongaki"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer__link"
+                  >
+                    <TwitterIcon />
+                    Twitter
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="footer__bottom">
-            <p className="footer__copyright">
+            <div className="footer__copyright">
               © {new Date().getFullYear()} Devongaki. All rights reserved.
-            </p>
+            </div>
           </div>
         </div>
       </footer>
