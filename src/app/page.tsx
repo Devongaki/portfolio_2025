@@ -7,6 +7,8 @@ import ClientHeroBackground from "@/components/sections/Hero/ClientHeroBackgroun
 import ContactForm from "@/components/sections/Contact/ContactForm";
 import { useState, useEffect } from "react";
 import Logo from "@/components/ui/Logo";
+import { projects } from '../data/projects';
+import Image from 'next/image';
 
 export default function Home() {
   const { scrollY } = useScroll();
@@ -18,41 +20,6 @@ export default function Home() {
     setIsMenuOpen(!isMenuOpen);
     document.body.style.overflow = !isMenuOpen ? "hidden" : "";
   };
-
-  const projects = [
-    {
-      title: "Modern E-commerce Dashboard",
-      description:
-        "A comprehensive admin panel for e-commerce businesses with real-time analytics, inventory management, and order processing. Built with Next.js, Tailwind CSS, and Prisma.",
-      image:
-        "https://placehold.co/600x400/4f46e5/ffffff?text=E-commerce+Dashboard",
-      color: "#4f46e5",
-      tags: ["Next.js", "Tailwind CSS", "Prisma", "TypeScript"],
-      demoLink: "#",
-      githubLink: "#",
-    },
-    {
-      title: "AI Writing Assistant",
-      description:
-        "A modern landing page for an AI-powered writing assistant, featuring animated sections, 3D illustrations, and interactive pricing tables. Built with Next.js and Framer Motion.",
-      image:
-        "https://placehold.co/600x400/8b5cf6/ffffff?text=AI+Writing+Assistant",
-      color: "#8b5cf6",
-      tags: ["Next.js", "Three.js", "Framer Motion", "TypeScript"],
-      demoLink: "#",
-      githubLink: "#",
-    },
-    {
-      title: "Task Management App",
-      description:
-        "A real-time collaborative task management application with Kanban board interface, filtering, and progress tracking. Built with Next.js and real-time database.",
-      image: "https://placehold.co/600x400/06b6d4/ffffff?text=Task+Management",
-      color: "#06b6d4",
-      tags: ["Next.js", "Real-time DB", "DnD", "TypeScript"],
-      demoLink: "#",
-      githubLink: "#",
-    },
-  ];
 
   return (
     <main className="main">
@@ -258,18 +225,15 @@ export default function Home() {
                 </div>
                 <motion.div
                   className="project-showcase__image"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <motion.img
+                  <Image
                     src={project.image}
                     alt={project.title}
-                    initial={{ scale: 1.2 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    fill={true}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="project-showcase__actual-image"
                   />
                   <div className="project-showcase__gradient" />
                 </motion.div>
