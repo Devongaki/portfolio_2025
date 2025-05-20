@@ -11,25 +11,25 @@ export const projects: Project[] = [
     demoLink: "https://maadcollective.netlify.app/",
     githubLink: "https://github.com/Devongaki/maadcollective",
   },
-  {
-    title: "AI Writing Assistant",
-    description:
-      "A modern landing page for an AI-powered writing assistant, featuring animated sections, 3D illustrations, and interactive pricing tables. Built with Next.js and Framer Motion.",
-    image:
-      "https://placehold.co/600x400/8b5cf6/ffffff?text=AI+Writing+Assistant",
-    color: "#8b5cf6",
-    tags: ["Next.js", "Three.js", "Framer Motion", "TypeScript"],
-    demoLink: "#",
-    githubLink: "#",
-  },
-  {
-    title: "Task Management App",
-    description:
-      "A real-time collaborative task management application with Kanban board interface, filtering, and progress tracking. Built with Next.js and real-time database.",
-    image: "https://placehold.co/600x400/06b6d4/ffffff?text=Task+Management",
-    color: "#06b6d4",
-    tags: ["Next.js", "Real-time DB", "DnD", "TypeScript"],
-    demoLink: "#",
-    githubLink: "#",
-  },
+//   {
+//     title: "AI Writing Assistant",
+//     description:
+//       "A modern landing page for an AI-powered writing assistant, featuring animated sections, 3D illustrations, and interactive pricing tables. Built with Next.js and Framer Motion.",
+//     image:
+//       "https://placehold.co/600x400/8b5cf6/ffffff?text=AI+Writing+Assistant",
+//     color: "#8b5cf6",
+//     tags: ["Next.js", "Three.js", "Framer Motion", "TypeScript"],
+//     demoLink: "#",
+//     githubLink: "#",
+//   },
+//   {
+//     title: "Task Management App",
+//     description:
+//       "A real-time collaborative task management application with Kanban board interface, filtering, and progress tracking. Built with Next.js and real-time database.",
+//     image: "https://placehold.co/600x400/06b6d4/ffffff?text=Task+Management",
+//     color: "#06b6d4",
+//     tags: ["Next.js", "Real-time DB", "DnD", "TypeScript"],
+//     demoLink: "#",
+//     githubLink: "#",
+//   },
 ]; 
